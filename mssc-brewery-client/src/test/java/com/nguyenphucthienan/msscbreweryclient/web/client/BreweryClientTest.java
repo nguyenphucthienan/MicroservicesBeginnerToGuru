@@ -1,0 +1,23 @@
+package com.nguyenphucthienan.msscbreweryclient.web.client;
+
+import com.nguyenphucthienan.msscbreweryclient.web.model.BeerDTO;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+@SpringBootTest
+public class BreweryClientTest {
+
+    @Autowired
+    private BreweryClient breweryClient;
+
+    @Test
+    public void getBeer() {
+        BeerDTO beerDTO = breweryClient.getBeer(UUID.randomUUID());
+        assertNotNull(beerDTO);
+    }
+}
