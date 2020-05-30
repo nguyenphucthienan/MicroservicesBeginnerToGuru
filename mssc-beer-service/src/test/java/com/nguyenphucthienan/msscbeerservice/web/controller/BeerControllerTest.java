@@ -33,7 +33,7 @@ public class BeerControllerTest {
 
     @Test
     public void saveBeer() throws Exception {
-        BeerDTO beerDTO = getValidBeer();
+        BeerDTO beerDTO = getValidBeerDto();
         beerDTO.setId(null);
         String beerDTOJson = objectMapper.writeValueAsString(beerDTO);
 
@@ -45,7 +45,7 @@ public class BeerControllerTest {
 
     @Test
     public void updateBeer() throws Exception {
-        BeerDTO beerDTO = getValidBeer();
+        BeerDTO beerDTO = getValidBeerDto();
         beerDTO.setId(null);
         String beerDTOJson = objectMapper.writeValueAsString(beerDTO);
 
@@ -55,13 +55,13 @@ public class BeerControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-    private BeerDTO getValidBeer() {
+    private BeerDTO getValidBeerDto() {
         return BeerDTO.builder()
                 .id(UUID.randomUUID())
                 .beerName("Beer Name")
                 .beerStyle(BeerStyleEnum.ALE)
                 .upc(123456789L)
-                .price(BigDecimal.valueOf(1000))
+                .price(new BigDecimal("2.99"))
                 .build();
     }
 }
