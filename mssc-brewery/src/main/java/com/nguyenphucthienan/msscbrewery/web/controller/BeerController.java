@@ -49,13 +49,4 @@ public class BeerController {
     public void deleteBeer(@PathVariable("id") UUID id) {
         beerService.deleteById(id);
     }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<String>> validationErrorHandler(MethodArgumentNotValidException exception) {
-        List<String> errors = exception.getBindingResult().getFieldErrors()
-                .stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
 }
