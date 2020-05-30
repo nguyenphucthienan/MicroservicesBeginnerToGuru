@@ -5,6 +5,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultConnectionKeepAliveStrategy;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateCustomizer;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -14,6 +15,21 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class BlockingRestTemplateCustomizer implements RestTemplateCustomizer {
 
+    private final Integer maxTotal;
+    private final Integer defaultMaxPerRoute;
+    private final Integer connectionRequestTimeout;
+    private final Integer socketTimeout;
+
+    public BlockingRestTemplateCustomizer(@Value("${npta.maxtotal}") Integer maxTotal,
+                                          @Value("${npta.defaultmaxperroute}") Integer defaultMaxPerRoute,
+                                          @Value("${npta.connectionrequesttimeout}") Integer connectionRequestTimeout,
+                                          @Value("${npta.sockettimeout}") Integer socketTimeout) {
+        this.maxTotal = maxTotal;
+        this.defaultMaxPerRoute = defaultMaxPerRoute;
+        this.connectionRequestTimeout = connectionRequestTimeout;
+        this.socketTimeout = socketTimeout;
+    }
+
     @Override
     public void customize(RestTemplate restTemplate) {
         restTemplate.setRequestFactory(clientHttpRequestFactory());
@@ -21,13 +37,13 @@ public class BlockingRestTemplateCustomizer implements RestTemplateCustomizer {
 
     private ClientHttpRequestFactory clientHttpRequestFactory() {
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-        connectionManager.setMaxTotal(100);
-        connectionManager.setDefaultMaxPerRoute(20);
+        connectionManager.setMaxTotal(maxTotal);
+        connectionManager.setDefaultMaxPerRoute(defaultMaxPerRoute);
 
         RequestConfig requestConfig = RequestConfig
                 .custom()
-                .setConnectionRequestTimeout(3000)
-                .setSocketTimeout(3000)
+                .setConnectionRequestTimeout(connectionRequestTimeout)
+                .setSocketTimeout(socketTimeout)
                 .build();
 
         CloseableHttpClient httpClient = HttpClients
