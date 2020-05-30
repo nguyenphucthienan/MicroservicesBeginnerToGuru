@@ -28,4 +28,10 @@ public class BreweryClientTest {
         URI uri = breweryClient.saveBeer(beerDTO);
         assertNotNull(uri);
     }
+
+    @Test
+    public void updateBeer() {
+        BeerDTO beerDTO = BeerDTO.builder().beerName("Beer Name").build();
+        breweryClient.updateBeer(UUID.randomUUID(), beerDTO);
+    }
 }
