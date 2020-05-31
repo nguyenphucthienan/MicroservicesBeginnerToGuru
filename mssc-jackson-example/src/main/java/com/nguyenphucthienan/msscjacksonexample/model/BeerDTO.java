@@ -1,5 +1,6 @@
 package com.nguyenphucthienan.msscjacksonexample.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class BeerDTO {
 
     @Null
+    @JsonProperty("beerId")
     private UUID id;
 
     @NotBlank
