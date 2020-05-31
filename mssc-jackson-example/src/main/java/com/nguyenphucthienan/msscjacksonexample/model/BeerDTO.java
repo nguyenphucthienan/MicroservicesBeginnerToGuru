@@ -1,5 +1,6 @@
 package com.nguyenphucthienan.msscjacksonexample.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,8 +33,13 @@ public class BeerDTO {
     @Positive
     private Long upc;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal price;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'-'HH:mm:ssZ",shape = JsonFormat.Shape.STRING)
     private OffsetDateTime createdDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'-'HH:mm:ssZ",shape = JsonFormat.Shape.STRING)
     private OffsetDateTime lastUpdatedDate;
 }
 
