@@ -1,11 +1,14 @@
 package com.nguyenphucthienan.msscbeerservice.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nguyenphucthienan.msscbeerservice.service.BeerService;
 import com.nguyenphucthienan.msscbeerservice.web.model.BeerDTO;
 import com.nguyenphucthienan.msscbeerservice.web.model.BeerStyleEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -16,6 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(BeerController.class)
+@EnableJpaRepositories
 public class BeerControllerTest {
 
     @Autowired
@@ -23,6 +27,9 @@ public class BeerControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    BeerService beerService;
 
     @Test
     public void getBeer() throws Exception {
@@ -52,7 +59,7 @@ public class BeerControllerTest {
         mockMvc.perform(put(BeerController.BASE_URL + "/" + UUID.randomUUID().toString())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(beerDTOJson))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk());
     }
 
     private BeerDTO getValidBeerDto() {
