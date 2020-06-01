@@ -28,7 +28,8 @@ public class BeerController {
     public ResponseEntity<BeerPagedList> getBeers(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                   @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                   @RequestParam(value = "beerName", required = false) String beerName,
-                                                  @RequestParam(value = "beerStyle", required = false) BeerStyleEnum beerStyleEnum) {
+                                                  @RequestParam(value = "beerStyle", required = false) BeerStyleEnum beerStyleEnum,
+                                                  @RequestParam(value = "shownInventoryOnHand", required = false) Boolean shownInventoryOnHand) {
         if (pageNumber == null || pageNumber < 0) {
             pageNumber = DEFAULT_PAGE_NUMBER;
         }
@@ -37,13 +38,23 @@ public class BeerController {
             pageSize = DEFAULT_PAGE_SIZE;
         }
 
-        BeerPagedList beerList = beerService.getBeers(beerName, beerStyleEnum, PageRequest.of(pageNumber, pageSize));
+        if (shownInventoryOnHand == null) {
+            shownInventoryOnHand = false;
+        }
+
+        BeerPagedList beerList = beerService.getBeers(beerName, beerStyleEnum,
+                PageRequest.of(pageNumber, pageSize), shownInventoryOnHand);
+
         return new ResponseEntity<>(beerList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BeerDTO> getBeer(@PathVariable UUID id) {
-        return new ResponseEntity<>(beerService.getBeerById(id), HttpStatus.OK);
+    public ResponseEntity<BeerDTO> getBeer(@PathVariable UUID id,
+                                           @RequestParam(value = "shownInventoryOnHand", required = false) Boolean shownInventoryOnHand) {
+        if (shownInventoryOnHand == null) {
+            shownInventoryOnHand = false;
+        }
+        return new ResponseEntity<>(beerService.getBeerById(id, shownInventoryOnHand), HttpStatus.OK);
     }
 
     @PostMapping
