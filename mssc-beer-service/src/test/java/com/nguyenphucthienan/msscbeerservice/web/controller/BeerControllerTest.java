@@ -1,7 +1,7 @@
 package com.nguyenphucthienan.msscbeerservice.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nguyenphucthienan.msscbeerservice.bootstrap.BeerLoader;
+import com.nguyenphucthienan.msscbeerservice.bootstrap.BeerBootstrap;
 import com.nguyenphucthienan.msscbeerservice.service.BeerService;
 import com.nguyenphucthienan.msscbeerservice.web.model.BeerDTO;
 import com.nguyenphucthienan.msscbeerservice.web.model.BeerStyleEnum;
@@ -70,10 +70,10 @@ public class BeerControllerTest {
 
     private BeerDTO getValidBeerDTO() {
         return BeerDTO.builder()
-                .id(UUID.randomUUID())
+                .id(BeerBootstrap.BEER_1_UUID)
                 .beerName("Beer Name")
                 .beerStyle(BeerStyleEnum.ALE)
-                .upc(BeerLoader.BEER_1_UPC)
+                .upc(BeerBootstrap.BEER_1_UPC)
                 .price(new BigDecimal("2.99"))
                 .build();
     }
