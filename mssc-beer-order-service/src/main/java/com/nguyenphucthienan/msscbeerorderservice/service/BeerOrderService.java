@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface BeerOrderService {
 
-    BeerOrderPagedList listOrders(UUID customerId, Pageable pageable);
+    BeerOrderPagedList getOrders(UUID customerId, Pageable pageable);
 
     BeerOrderDTO placeOrder(UUID customerId, BeerOrderDTO beerOrderDTO);
 

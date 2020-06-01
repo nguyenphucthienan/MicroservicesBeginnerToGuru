@@ -23,7 +23,7 @@ public class BeerOrderController {
     }
 
     @GetMapping("/orders")
-    public BeerOrderPagedList listOrders(@PathVariable("customerId") UUID customerId,
+    public BeerOrderPagedList getOrders(@PathVariable("customerId") UUID customerId,
                                          @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                          @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         if (pageNumber == null || pageNumber < 0) {
@@ -34,7 +34,7 @@ public class BeerOrderController {
             pageSize = DEFAULT_PAGE_SIZE;
         }
 
-        return beerOrderService.listOrders(customerId, PageRequest.of(pageNumber, pageSize));
+        return beerOrderService.getOrders(customerId, PageRequest.of(pageNumber, pageSize));
     }
 
     @PostMapping("/orders")
