@@ -29,7 +29,7 @@ public class BeerController {
                                                   @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                   @RequestParam(value = "beerName", required = false) String beerName,
                                                   @RequestParam(value = "beerStyle", required = false) BeerStyleEnum beerStyleEnum,
-                                                  @RequestParam(value = "shownInventoryOnHand", required = false) Boolean shownInventoryOnHand) {
+                                                  @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand) {
         if (pageNumber == null || pageNumber < 0) {
             pageNumber = DEFAULT_PAGE_NUMBER;
         }
@@ -38,23 +38,23 @@ public class BeerController {
             pageSize = DEFAULT_PAGE_SIZE;
         }
 
-        if (shownInventoryOnHand == null) {
-            shownInventoryOnHand = false;
+        if (showInventoryOnHand == null) {
+            showInventoryOnHand = false;
         }
 
         BeerPagedList beerList = beerService.getBeers(beerName, beerStyleEnum,
-                PageRequest.of(pageNumber, pageSize), shownInventoryOnHand);
+                PageRequest.of(pageNumber, pageSize), showInventoryOnHand);
 
         return new ResponseEntity<>(beerList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BeerDTO> getBeer(@PathVariable UUID id,
-                                           @RequestParam(value = "shownInventoryOnHand", required = false) Boolean shownInventoryOnHand) {
-        if (shownInventoryOnHand == null) {
-            shownInventoryOnHand = false;
+                                           @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand) {
+        if (showInventoryOnHand == null) {
+            showInventoryOnHand = false;
         }
-        return new ResponseEntity<>(beerService.getBeerById(id, shownInventoryOnHand), HttpStatus.OK);
+        return new ResponseEntity<>(beerService.getBeerById(id, showInventoryOnHand), HttpStatus.OK);
     }
 
     @PostMapping

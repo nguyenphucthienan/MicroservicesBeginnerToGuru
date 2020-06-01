@@ -8,6 +8,7 @@ import com.nguyenphucthienan.msscbeerservice.web.model.BeerDTO;
 import com.nguyenphucthienan.msscbeerservice.web.model.BeerPagedList;
 import com.nguyenphucthienan.msscbeerservice.web.model.BeerStyleEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,9 @@ public class BeerServiceImpl implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
+    @Cacheable(cacheNames = "beerListCache", condition = "#showInventoryOnHand == false")
     public BeerPagedList getBeers(String beerName, BeerStyleEnum beerStyleEnum,
-                                  PageRequest pageRequest, Boolean shownInventoryOnHand) {
+                                  PageRequest pageRequest, Boolean showInventoryOnHand) {
         Page<Beer> beerPage;
         if (!StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyleEnum)) {
             beerPage = beerRepository.findAllByBeerNameAndBeerStyle(beerName, beerStyleEnum, pageRequest);
@@ -38,7 +40,7 @@ public class BeerServiceImpl implements BeerService {
         }
 
         BeerPagedList beerPagedList;
-        if (shownInventoryOnHand) {
+        if (showInventoryOnHand) {
             beerPagedList = new BeerPagedList(beerPage
                     .getContent()
                     .stream()
@@ -64,11 +66,12 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public BeerDTO getBeerById(UUID id, Boolean shownInventoryOnHand) {
+    @Cacheable(cacheNames = "beerCache", key = "#id", condition = "#showInventoryOnHand == false")
+    public BeerDTO getBeerById(UUID id, Boolean showInventoryOnHand) {
         Beer beer = beerRepository.findById(id)
                 .orElseThrow(() -> new MvcNotFoundException("Beer ID " + id + " not found"));
 
-        if (shownInventoryOnHand) {
+        if (showInventoryOnHand) {
             return beerMapper.beerToBeerDTOWithInventory(beer);
         }
 
