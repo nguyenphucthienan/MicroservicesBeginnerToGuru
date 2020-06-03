@@ -71,7 +71,7 @@ public class BeerControllerTest {
 
     private BeerDTO getValidBeerDTO() {
         return BeerDTO.builder()
-                .id(BeerBootstrap.BEER_1_UUID)
+                .id(UUID.randomUUID())
                 .beerName("Beer Name")
                 .beerStyle(BeerStyleEnum.ALE)
                 .upc(BeerBootstrap.BEER_1_UPC)
