@@ -39,7 +39,7 @@ public class PaymentServiceImplTest {
         log.info(String.valueOf(savedPayment.getState()));
 
         StateMachine<PaymentState, PaymentEvent> stateMachine = paymentService.preAuth(savedPayment.getId());
-        log.info("Should be PRE_AUTH");
+        log.info("Should be PRE_AUTH or PRE_AUTH_ERROR");
         log.info(String.valueOf(stateMachine.getState().getId()));
 
         Payment preAuthedPayment = paymentRepository.getOne(savedPayment.getId());
