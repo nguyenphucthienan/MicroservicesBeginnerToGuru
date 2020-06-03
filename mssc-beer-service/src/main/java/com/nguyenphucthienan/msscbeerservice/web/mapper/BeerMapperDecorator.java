@@ -1,7 +1,7 @@
 package com.nguyenphucthienan.msscbeerservice.web.mapper;
 
 import com.nguyenphucthienan.msscbeerservice.domain.Beer;
-import com.nguyenphucthienan.msscbeerservice.service.BeerInventoryService;
+import com.nguyenphucthienan.msscbeerservice.service.inventory.BeerInventoryService;
 import com.nguyenphucthienan.msscbeerservice.web.model.BeerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 

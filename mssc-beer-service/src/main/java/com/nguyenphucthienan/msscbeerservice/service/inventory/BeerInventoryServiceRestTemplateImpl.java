@@ -1,4 +1,4 @@
-package com.nguyenphucthienan.msscbeerservice.service;
+package com.nguyenphucthienan.msscbeerservice.service.inventory;
 
 import com.nguyenphucthienan.msscbeerservice.web.model.BeerInventoryDTO;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.nguyenphucthienan.msscbeerservice.service;
+package com.nguyenphucthienan.msscbeerservice.service.inventory;
 
 import java.util.UUID;
 

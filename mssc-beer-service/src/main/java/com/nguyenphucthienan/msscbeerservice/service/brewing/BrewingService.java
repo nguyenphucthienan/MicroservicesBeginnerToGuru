@@ -1,9 +1,10 @@
-package com.nguyenphucthienan.msscbeerservice.service;
+package com.nguyenphucthienan.msscbeerservice.service.brewing;
 
 import com.nguyenphucthienan.msscbeerservice.config.JmsConfig;
 import com.nguyenphucthienan.msscbeerservice.domain.Beer;
 import com.nguyenphucthienan.msscbeerservice.event.BrewBeerEvent;
 import com.nguyenphucthienan.msscbeerservice.repository.BeerRepository;
+import com.nguyenphucthienan.msscbeerservice.service.inventory.BeerInventoryService;
 import com.nguyenphucthienan.msscbeerservice.web.mapper.BeerMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

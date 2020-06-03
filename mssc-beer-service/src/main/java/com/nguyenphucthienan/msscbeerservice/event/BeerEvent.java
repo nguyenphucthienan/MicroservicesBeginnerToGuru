@@ -1,9 +1,7 @@
 package com.nguyenphucthienan.msscbeerservice.event;
 
 import com.nguyenphucthienan.msscbeerservice.web.model.BeerDTO;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
