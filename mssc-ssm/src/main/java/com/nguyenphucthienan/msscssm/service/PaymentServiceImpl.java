@@ -12,6 +12,8 @@ import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @RequiredArgsConstructor
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -20,6 +22,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final StateMachineFactory<PaymentState, PaymentEvent> stateMachineFactory;
+    private final PaymentStateChangeInterceptor paymentStateChangeInterceptor;
 
     @Override
     public Payment newPayment(Payment payment) {
@@ -28,24 +31,27 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional
     public StateMachine<PaymentState, PaymentEvent> preAuth(Long paymentId) {
         StateMachine<PaymentState, PaymentEvent> stateMachine = build(paymentId);
-        sendEvent(paymentId, stateMachine, PaymentEvent.PRE_AUTHORIZE);
-        return null;
+        sendEvent(paymentId, stateMachine, PaymentEvent.PRE_AUTH_APPROVED);
+        return stateMachine;
     }
 
     @Override
+    @Transactional
     public StateMachine<PaymentState, PaymentEvent> approveAuth(Long paymentId) {
         StateMachine<PaymentState, PaymentEvent> stateMachine = build(paymentId);
         sendEvent(paymentId, stateMachine, PaymentEvent.AUTH_APPROVED);
-        return null;
+        return stateMachine;
     }
 
     @Override
+    @Transactional
     public StateMachine<PaymentState, PaymentEvent> declineAuth(Long paymentId) {
         StateMachine<PaymentState, PaymentEvent> stateMachine = build(paymentId);
         sendEvent(paymentId, stateMachine, PaymentEvent.AUTH_DECLINED);
-        return null;
+        return stateMachine;
     }
 
     private void sendEvent(Long paymentId, StateMachine<PaymentState, PaymentEvent> stateMachine, PaymentEvent event) {
@@ -64,8 +70,10 @@ public class PaymentServiceImpl implements PaymentService {
         stateMachine.stop();
 
         stateMachine.getStateMachineAccessor()
-                .doWithAllRegions(stateMachineAccess -> stateMachineAccess
-                        .resetStateMachine(new DefaultStateMachineContext<>(payment.getState(), null, null, null)));
+                .doWithAllRegions(stateMachineAccess -> {
+                    stateMachineAccess.addStateMachineInterceptor(paymentStateChangeInterceptor);
+                    stateMachineAccess.resetStateMachine(new DefaultStateMachineContext<>(payment.getState(), null, null, null));
+                });
 
         stateMachine.start();
 
