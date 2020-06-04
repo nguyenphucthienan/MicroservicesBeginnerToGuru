@@ -1,6 +1,6 @@
-package com.nguyenphucthienan.common.event;
+package com.nguyenphucthienan.brewery.model.event;
 
-import com.nguyenphucthienan.msscbeerservice.web.model.BeerDTO;
+import com.nguyenphucthienan.brewery.model.BeerDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

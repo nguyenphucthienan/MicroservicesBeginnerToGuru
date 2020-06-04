@@ -2,7 +2,7 @@ package com.nguyenphucthienan.msscbeerinventoryservice.service;
 
 import com.nguyenphucthienan.msscbeerinventoryservice.repository.BeerInventoryRepository;
 import com.nguyenphucthienan.msscbeerinventoryservice.web.mapper.BeerInventoryMapper;
-import com.nguyenphucthienan.msscbeerinventoryservice.web.model.BeerInventoryDTO;
+import com.nguyenphucthienan.brewery.model.BeerInventoryDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

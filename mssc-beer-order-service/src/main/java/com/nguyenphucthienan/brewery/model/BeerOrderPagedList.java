@@ -1,4 +1,4 @@
-package com.nguyenphucthienan.msscbeerorderservice.web.model;
+package com.nguyenphucthienan.brewery.model;
 
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

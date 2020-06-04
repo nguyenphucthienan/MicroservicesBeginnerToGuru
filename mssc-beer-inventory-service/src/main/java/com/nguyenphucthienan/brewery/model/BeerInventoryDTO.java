@@ -1,4 +1,4 @@
-package com.nguyenphucthienan.msscbeerservice.web.model;
+package com.nguyenphucthienan.brewery.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,5 +18,6 @@ public class BeerInventoryDTO {
     private OffsetDateTime createdDate;
     private OffsetDateTime lastModifiedDate;
     private UUID beerId;
+    private String upc;
     private Integer quantityOnHand;
 }

@@ -1,6 +1,6 @@
 package com.nguyenphucthienan.msscbeerorderservice.service;
 
-import com.nguyenphucthienan.msscbeerorderservice.web.model.BeerDTO;
+import com.nguyenphucthienan.brewery.model.BeerDTO;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;

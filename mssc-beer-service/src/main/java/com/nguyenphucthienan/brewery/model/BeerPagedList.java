@@ -1,4 +1,4 @@
-package com.nguyenphucthienan.msscbeerservice.web.model;
+package com.nguyenphucthienan.brewery.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

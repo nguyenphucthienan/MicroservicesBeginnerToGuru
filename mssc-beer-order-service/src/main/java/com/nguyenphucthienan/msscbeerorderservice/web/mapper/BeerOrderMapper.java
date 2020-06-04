@@ -1,7 +1,7 @@
 package com.nguyenphucthienan.msscbeerorderservice.web.mapper;
 
 import com.nguyenphucthienan.msscbeerorderservice.domain.BeerOrder;
-import com.nguyenphucthienan.msscbeerorderservice.web.model.BeerOrderDTO;
+import com.nguyenphucthienan.brewery.model.BeerOrderDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

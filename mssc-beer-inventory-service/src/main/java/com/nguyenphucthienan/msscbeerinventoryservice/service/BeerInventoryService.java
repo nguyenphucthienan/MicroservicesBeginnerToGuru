@@ -1,6 +1,6 @@
 package com.nguyenphucthienan.msscbeerinventoryservice.service;
 
-import com.nguyenphucthienan.msscbeerinventoryservice.web.model.BeerInventoryDTO;
+import com.nguyenphucthienan.brewery.model.BeerInventoryDTO;
 
 import java.util.List;
 import java.util.UUID;

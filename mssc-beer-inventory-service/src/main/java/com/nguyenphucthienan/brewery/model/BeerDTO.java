@@ -1,4 +1,4 @@
-package com.nguyenphucthienan.common.event;
+package com.nguyenphucthienan.brewery.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -41,7 +41,7 @@ public class BeerDTO implements Serializable {
     private String beerName;
 
     @NotNull
-    private BeerStyleEnum beerStyle;
+    private String beerStyle;
 
     @NotNull
     private String upc;

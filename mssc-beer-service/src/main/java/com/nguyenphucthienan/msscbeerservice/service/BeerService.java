@@ -1,8 +1,8 @@
 package com.nguyenphucthienan.msscbeerservice.service;
 
-import com.nguyenphucthienan.msscbeerservice.web.model.BeerDTO;
-import com.nguyenphucthienan.msscbeerservice.web.model.BeerPagedList;
-import com.nguyenphucthienan.msscbeerservice.web.model.BeerStyleEnum;
+import com.nguyenphucthienan.brewery.model.BeerDTO;
+import com.nguyenphucthienan.brewery.model.BeerPagedList;
+import com.nguyenphucthienan.brewery.model.BeerStyleEnum;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.UUID;

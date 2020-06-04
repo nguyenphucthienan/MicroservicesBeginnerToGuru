@@ -2,8 +2,8 @@ package com.nguyenphucthienan.msscbeerorderservice.web.mapper;
 
 import com.nguyenphucthienan.msscbeerorderservice.domain.BeerOrderLine;
 import com.nguyenphucthienan.msscbeerorderservice.service.BeerService;
-import com.nguyenphucthienan.msscbeerorderservice.web.model.BeerDTO;
-import com.nguyenphucthienan.msscbeerorderservice.web.model.BeerOrderLineDTO;
+import com.nguyenphucthienan.brewery.model.BeerDTO;
+import com.nguyenphucthienan.brewery.model.BeerOrderLineDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

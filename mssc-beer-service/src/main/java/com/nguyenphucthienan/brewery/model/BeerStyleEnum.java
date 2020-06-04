@@ -1,4 +1,4 @@
-package com.nguyenphucthienan.common.event;
+package com.nguyenphucthienan.brewery.model;
 
 public enum BeerStyleEnum {
 

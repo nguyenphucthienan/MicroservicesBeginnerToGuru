@@ -1,7 +1,7 @@
 package com.nguyenphucthienan.msscbeerinventoryservice.web.controller;
 
 import com.nguyenphucthienan.msscbeerinventoryservice.service.BeerInventoryService;
-import com.nguyenphucthienan.msscbeerinventoryservice.web.model.BeerInventoryDTO;
+import com.nguyenphucthienan.brewery.model.BeerInventoryDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

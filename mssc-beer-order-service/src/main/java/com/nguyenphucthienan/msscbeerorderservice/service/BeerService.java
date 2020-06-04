@@ -1,6 +1,6 @@
 package com.nguyenphucthienan.msscbeerorderservice.service;
 
-import com.nguyenphucthienan.msscbeerorderservice.web.model.BeerDTO;
+import com.nguyenphucthienan.brewery.model.BeerDTO;
 
 import java.util.Optional;
 import java.util.UUID;

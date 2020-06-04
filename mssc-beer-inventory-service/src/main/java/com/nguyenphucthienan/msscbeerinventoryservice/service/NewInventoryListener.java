@@ -1,7 +1,7 @@
 package com.nguyenphucthienan.msscbeerinventoryservice.service;
 
-import com.nguyenphucthienan.common.event.BeerDTO;
-import com.nguyenphucthienan.common.event.NewInventoryEvent;
+import com.nguyenphucthienan.brewery.model.BeerDTO;
+import com.nguyenphucthienan.brewery.model.event.NewInventoryEvent;
 import com.nguyenphucthienan.msscbeerinventoryservice.config.JmsConfig;
 import com.nguyenphucthienan.msscbeerinventoryservice.domain.BeerInventory;
 import com.nguyenphucthienan.msscbeerinventoryservice.repository.BeerInventoryRepository;
