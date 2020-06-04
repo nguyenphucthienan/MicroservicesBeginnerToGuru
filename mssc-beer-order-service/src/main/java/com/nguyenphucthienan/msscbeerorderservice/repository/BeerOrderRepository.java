@@ -1,8 +1,8 @@
 package com.nguyenphucthienan.msscbeerorderservice.repository;
 
 import com.nguyenphucthienan.msscbeerorderservice.domain.BeerOrder;
+import com.nguyenphucthienan.msscbeerorderservice.domain.BeerOrderStatusEnum;
 import com.nguyenphucthienan.msscbeerorderservice.domain.Customer;
-import com.nguyenphucthienan.msscbeerorderservice.domain.OrderStatusEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +16,7 @@ public interface BeerOrderRepository extends JpaRepository<BeerOrder, UUID> {
 
     Page<BeerOrder> findAllByCustomer(Customer customer, Pageable pageable);
 
-    List<BeerOrder> findAllByOrderStatus(OrderStatusEnum orderStatusEnum);
+    List<BeerOrder> findAllByOrderStatus(BeerOrderStatusEnum orderStatusEnum);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     BeerOrder findOneById(UUID id);

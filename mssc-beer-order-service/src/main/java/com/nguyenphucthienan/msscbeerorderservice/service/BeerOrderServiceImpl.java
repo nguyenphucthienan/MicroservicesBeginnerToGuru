@@ -1,8 +1,8 @@
 package com.nguyenphucthienan.msscbeerorderservice.service;
 
 import com.nguyenphucthienan.msscbeerorderservice.domain.BeerOrder;
+import com.nguyenphucthienan.msscbeerorderservice.domain.BeerOrderStatusEnum;
 import com.nguyenphucthienan.msscbeerorderservice.domain.Customer;
-import com.nguyenphucthienan.msscbeerorderservice.domain.OrderStatusEnum;
 import com.nguyenphucthienan.msscbeerorderservice.repository.BeerOrderRepository;
 import com.nguyenphucthienan.msscbeerorderservice.repository.CustomerRepository;
 import com.nguyenphucthienan.msscbeerorderservice.web.mapper.BeerOrderMapper;
@@ -64,7 +64,7 @@ public class BeerOrderServiceImpl implements BeerOrderService {
         BeerOrder beerOrder = beerOrderMapper.beerDTOToBeerOrder(beerOrderDTO);
         beerOrder.setId(null); // Should not be set by outside client
         beerOrder.setCustomer(customerOptional.get());
-        beerOrder.setOrderStatus(OrderStatusEnum.NEW);
+        beerOrder.setOrderStatus(BeerOrderStatusEnum.NEW);
         beerOrder.getBeerOrderLines().forEach(line -> line.setBeerOrder(beerOrder));
         BeerOrder savedBeerOrder = beerOrderRepository.saveAndFlush(beerOrder);
 
@@ -83,7 +83,7 @@ public class BeerOrderServiceImpl implements BeerOrderService {
     @Override
     public void pickupOrder(UUID customerId, UUID orderId) {
         BeerOrder beerOrder = getOrder(customerId, orderId);
-        beerOrder.setOrderStatus(OrderStatusEnum.PICKED_UP);
+        beerOrder.setOrderStatus(BeerOrderStatusEnum.PICKED_UP);
         beerOrderRepository.save(beerOrder);
     }
 
