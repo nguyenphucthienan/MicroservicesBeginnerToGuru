@@ -4,6 +4,7 @@ import com.nguyenphucthienan.msscbeerorderservice.domain.BeerOrder;
 import com.nguyenphucthienan.msscbeerorderservice.domain.BeerOrderEventEnum;
 import com.nguyenphucthienan.msscbeerorderservice.domain.BeerOrderStatusEnum;
 import com.nguyenphucthienan.msscbeerorderservice.repository.BeerOrderRepository;
+import com.nguyenphucthienan.msscbeerorderservice.sm.BeerOrderStateChangeInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -18,8 +19,11 @@ import javax.transaction.Transactional;
 @Service
 public class BeerOrderManagerImpl implements BeerOrderManager {
 
+    public static final String ORDER_ID_HEADER = "ORDER_ID_HEADER";
+
     private final StateMachineFactory<BeerOrderStatusEnum, BeerOrderEventEnum> stateMachineFactory;
     private final BeerOrderRepository beerOrderRepository;
+    private final BeerOrderStateChangeInterceptor beerOrderStateChangeInterceptor;
 
     @Override
     @Transactional
@@ -33,7 +37,11 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
     private void sendBeerOrderEvent(BeerOrder beerOrder, BeerOrderEventEnum beerOrderEventEnum) {
         StateMachine<BeerOrderStatusEnum, BeerOrderEventEnum> stateMachine = build(beerOrder);
-        Message<BeerOrderEventEnum> message = MessageBuilder.withPayload(beerOrderEventEnum).build();
+        Message<BeerOrderEventEnum> message = MessageBuilder
+                .withPayload(beerOrderEventEnum)
+                .setHeader(ORDER_ID_HEADER, beerOrder.getId().toString())
+                .build();
+
         stateMachine.sendEvent(message);
     }
 
@@ -45,6 +53,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
         stateMachine.getStateMachineAccessor()
                 .doWithAllRegions(stateMachineAccess -> {
+                    stateMachineAccess.addStateMachineInterceptor(beerOrderStateChangeInterceptor);
                     stateMachineAccess.resetStateMachine(new DefaultStateMachineContext<>(beerOrder.getOrderStatus(),
                             null, null, null));
                 });
