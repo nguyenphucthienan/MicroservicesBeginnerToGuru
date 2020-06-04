@@ -1,4 +1,4 @@
-package com.nguyenphucthienan.msscbeerinventoryservice.service;
+package com.nguyenphucthienan.msscbeerinventoryservice.service.listener;
 
 import com.nguyenphucthienan.brewery.model.BeerDTO;
 import com.nguyenphucthienan.brewery.model.event.NewInventoryEvent;
