@@ -1,5 +1,6 @@
 package com.nguyenphucthienan.msscbeerorderservice.service;
 
+import com.nguyenphucthienan.brewery.model.BeerOrderDTO;
 import com.nguyenphucthienan.msscbeerorderservice.domain.BeerOrder;
 import com.nguyenphucthienan.msscbeerorderservice.domain.BeerOrderEventEnum;
 import com.nguyenphucthienan.msscbeerorderservice.domain.BeerOrderStatusEnum;
@@ -46,6 +47,39 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
         } else {
             sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_FAILED);
         }
+    }
+
+    @Override
+    public void beerOrderAllocationPassed(BeerOrderDTO beerOrderDTO) {
+        BeerOrder beerOrder = beerOrderRepository.getOne(beerOrderDTO.getId());
+        sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_SUCCESS);
+        updateAllocatedQuantity(beerOrderDTO, beerOrder);
+    }
+
+    @Override
+    public void beerOrderAllocationPendingInventory(BeerOrderDTO beerOrderDTO) {
+        BeerOrder beerOrder = beerOrderRepository.getOne(beerOrderDTO.getId());
+        sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_NO_INVENTORY);
+        updateAllocatedQuantity(beerOrderDTO, beerOrder);
+    }
+
+    @Override
+    public void beerOrderAllocationFailed(BeerOrderDTO beerOrderDTO) {
+        BeerOrder beerOrder = beerOrderRepository.getOne(beerOrderDTO.getId());
+        sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_FAILED);
+    }
+
+    private void updateAllocatedQuantity(BeerOrderDTO beerOrderDTO, BeerOrder beerOrder) {
+        BeerOrder allocatedOrder = beerOrderRepository.getOne(beerOrderDTO.getId());
+        allocatedOrder.getBeerOrderLines().forEach(beerOrderLine -> {
+            beerOrderDTO.getBeerOrderLines().forEach(beerOrderLineDto -> {
+                if (beerOrderLine.getId().equals(beerOrderLineDto.getId())) {
+                    beerOrderLine.setQuantityAllocated(beerOrderLineDto.getQuantityAllocated());
+                }
+            });
+        });
+
+        beerOrderRepository.saveAndFlush(beerOrder);
     }
 
     private void sendBeerOrderEvent(BeerOrder beerOrder, BeerOrderEventEnum beerOrderEventEnum) {
