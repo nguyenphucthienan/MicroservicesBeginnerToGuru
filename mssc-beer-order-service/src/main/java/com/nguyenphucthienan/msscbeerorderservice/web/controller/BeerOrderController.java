@@ -1,14 +1,16 @@
 package com.nguyenphucthienan.msscbeerorderservice.web.controller;
 
-import com.nguyenphucthienan.msscbeerorderservice.service.BeerOrderService;
 import com.nguyenphucthienan.brewery.model.BeerOrderDTO;
 import com.nguyenphucthienan.brewery.model.BeerOrderPagedList;
+import com.nguyenphucthienan.msscbeerorderservice.service.BeerOrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/customers/{customerId}")
 public class BeerOrderController {
@@ -18,14 +20,10 @@ public class BeerOrderController {
 
     private final BeerOrderService beerOrderService;
 
-    public BeerOrderController(BeerOrderService beerOrderService) {
-        this.beerOrderService = beerOrderService;
-    }
-
     @GetMapping("/orders")
     public BeerOrderPagedList getOrders(@PathVariable("customerId") UUID customerId,
-                                         @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                                         @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+                                        @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                        @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         if (pageNumber == null || pageNumber < 0) {
             pageNumber = DEFAULT_PAGE_NUMBER;
         }
