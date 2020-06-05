@@ -23,15 +23,21 @@ public class BeerOrderAllocationListener {
 
         boolean pendingInventory = false;
         boolean allocationError = false;
+        boolean sendResponse = true;
 
-        if (allocateOrderRequest.getBeerOrderDTO().getCustomerRef() != null
-                && allocateOrderRequest.getBeerOrderDTO().getCustomerRef().equals("partial-allocation")){
-            pendingInventory = true;
-        }
-
-        if (allocateOrderRequest.getBeerOrderDTO().getCustomerRef() != null
-                && allocateOrderRequest.getBeerOrderDTO().getCustomerRef().equals("fail-allocation")){
-            allocationError = true;
+        // Set allocation error
+        if (allocateOrderRequest.getBeerOrderDTO().getCustomerRef() != null) {
+            switch (allocateOrderRequest.getBeerOrderDTO().getCustomerRef()) {
+                case "fail-allocation":
+                    allocationError = true;
+                    break;
+                case "partial-allocation":
+                    pendingInventory = true;
+                    break;
+                case "dont-allocate":
+                    sendResponse = false;
+                    break;
+            }
         }
 
         boolean finalPendingInventory = pendingInventory;
@@ -43,11 +49,13 @@ public class BeerOrderAllocationListener {
             }
         });
 
-        jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_RESPONSE_QUEUE,
-                AllocateOrderResult.builder()
-                        .beerOrderDTO(allocateOrderRequest.getBeerOrderDTO())
-                        .pendingInventory(pendingInventory)
-                        .allocationError(allocationError)
-                        .build());
+        if (sendResponse) {
+            jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_RESPONSE_QUEUE,
+                    AllocateOrderResult.builder()
+                            .beerOrderDTO(allocateOrderRequest.getBeerOrderDTO())
+                            .pendingInventory(pendingInventory)
+                            .allocationError(allocationError)
+                            .build());
+        }
     }
 }
