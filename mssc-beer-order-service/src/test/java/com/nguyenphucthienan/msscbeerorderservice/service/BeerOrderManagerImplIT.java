@@ -120,6 +120,44 @@ public class BeerOrderManagerImplIT {
     }
 
     @Test
+    void testFailedAllocation() throws JsonProcessingException {
+        BeerDTO beerDTO = BeerDTO.builder().id(beerId).upc(beerUPC).build();
+
+        wireMockServer.stubFor(get(BeerServiceImpl.BEER_UPC_PATH_V1 + beerUPC)
+                .willReturn(okJson(objectMapper.writeValueAsString(beerDTO))));
+
+        BeerOrder beerOrder = createBeerOrder();
+        beerOrder.setCustomerRef("fail-allocation");
+
+        BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
+
+        await().untilAsserted(() -> {
+            beerOrderRepository.findById(beerOrder.getId()).ifPresent(foundBeerOrder -> {
+                assertEquals(BeerOrderStatusEnum.ALLOCATION_EXCEPTION, foundBeerOrder.getOrderStatus());
+            });
+        });
+    }
+
+    @Test
+    void testPartialAllocation() throws JsonProcessingException {
+        BeerDTO beerDTO = BeerDTO.builder().id(beerId).upc(beerUPC).build();
+
+        wireMockServer.stubFor(get(BeerServiceImpl.BEER_UPC_PATH_V1 + beerUPC)
+                .willReturn(okJson(objectMapper.writeValueAsString(beerDTO))));
+
+        BeerOrder beerOrder = createBeerOrder();
+        beerOrder.setCustomerRef("partial-allocation");
+
+        BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
+
+        await().untilAsserted(() -> {
+            beerOrderRepository.findById(beerOrder.getId()).ifPresent(foundBeerOrder -> {
+                assertEquals(BeerOrderStatusEnum.PENDING_INVENTORY, foundBeerOrder.getOrderStatus());
+            });
+        });
+    }
+
+    @Test
     void testNewToPickedUp() throws JsonProcessingException {
         BeerDTO beerDTO = BeerDTO.builder().id(beerId).upc(beerUPC).build();
 
