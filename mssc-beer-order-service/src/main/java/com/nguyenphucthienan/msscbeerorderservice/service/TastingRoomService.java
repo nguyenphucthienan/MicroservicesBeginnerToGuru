@@ -1,11 +1,11 @@
 package com.nguyenphucthienan.msscbeerorderservice.service;
 
+import com.nguyenphucthienan.brewery.model.BeerOrderDTO;
+import com.nguyenphucthienan.brewery.model.BeerOrderLineDTO;
 import com.nguyenphucthienan.msscbeerorderservice.bootstrap.BeerOrderBootstrap;
 import com.nguyenphucthienan.msscbeerorderservice.domain.Customer;
 import com.nguyenphucthienan.msscbeerorderservice.repository.BeerOrderRepository;
 import com.nguyenphucthienan.msscbeerorderservice.repository.CustomerRepository;
-import com.nguyenphucthienan.brewery.model.BeerOrderDTO;
-import com.nguyenphucthienan.brewery.model.BeerOrderLineDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -37,13 +37,14 @@ public class TastingRoomService {
     }
 
     @Transactional
-    // @Scheduled(fixedRate = 2000) // Run every 2 seconds
+    @Scheduled(fixedRate = 2000) // Run every 2 seconds
     public void placeTastingRoomOrder() {
         List<Customer> customers = customerRepository.findAllByCustomerNameLike(BeerOrderBootstrap.TASTING_ROOM);
         if (customers.size() == 1) { // Should be just one
             doPlaceOrder(customers.get(0));
         } else {
             log.error("Too many or too few tasting room customers found");
+            customers.forEach(customer -> log.debug(customer.toString()));
         }
     }
 
