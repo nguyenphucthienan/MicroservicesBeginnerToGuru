@@ -3,6 +3,7 @@ package com.nguyenphucthienan.msscbeerorderservice.domain;
 public enum BeerOrderStatusEnum {
 
     NEW,
+    CANCELLED,
     VALIDATED,
     VALIDATION_PENDING,
     VALIDATION_EXCEPTION,
