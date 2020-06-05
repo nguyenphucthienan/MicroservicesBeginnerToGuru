@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Profile;
 
 // @Profile("google")
 // @Configuration
-public class GoogleConfig {
+public class GoogleRoutesConfig {
 
     @Bean
-    public RouteLocator googleRouteConfig(RouteLocatorBuilder routeLocatorBuilder) {
+    public RouteLocator googleRoutes(RouteLocatorBuilder routeLocatorBuilder) {
         return routeLocatorBuilder.routes()
                 .route(route -> route.path("/webhp")
                         .filters(filter -> filter.rewritePath("/webhp(?<segment>/?.*)", "/${segment}"))
