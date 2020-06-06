@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    config:
+      allowOverride: true
+      failFast: true
+      overrideNone: true
+      overrideSystemProperties: false
+      server:
+        git:
+          uri: git@github.com:nguyenphucthienan/MSSCBreweryConfig.git
+          clone-on-start: true
+
+# Create SSH Key:
+# ssh-keygen -m PEM -t rsa -b 4096 -C "your_email@example.com"
+# eval $(ssh-agent -s)
+# ssh-add ~/.ssh/id_rsa
