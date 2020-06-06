@@ -9,6 +9,7 @@ spring:
         git:
           uri: git@github.com:nguyenphucthienan/MSSCBreweryConfig.git
           clone-on-start: true
+          search-paths: '{application}'
 
 # Create SSH Key:
 # ssh-keygen -m PEM -t rsa -b 4096 -C "your_email@example.com"
